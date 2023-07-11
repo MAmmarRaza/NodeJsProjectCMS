@@ -1,0 +1,61 @@
+<!-- Footer -->
+<div id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <span>© Copyright 2023 News | Powered by Meta Solution</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.12/dist/sweetalert2.all.min.js"></script>
+
+<script>
+  function deleteData(path) {
+    Swal.fire({
+      title: 'Are you sure you want to delete the User?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: '<i class="fa fa-trash"></i> Delete',
+      cancelButtonText: 'Cancel',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-danger mx-2',
+        cancelButton: 'btn btn-secondary mx-2'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location = `/admin/${path}`;
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    $('#dt1').DataTable();
+  });
+</script>
+
+<script>
+  $('#summernote').summernote({
+    placeholder: 'Hello stand alone ui',
+    tabsize: 2,
+    height: 120,
+    toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['fullscreen', 'codeview', 'help']]
+    ]
+  });
+</script>
+<!-- /Footer -->
+</body>
+
+</html>

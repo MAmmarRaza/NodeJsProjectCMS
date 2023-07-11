@@ -1,0 +1,75 @@
+<%- include('header') %>
+    <div id="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <!-- post-container -->
+                    <div class="post-container">
+                        <h2 class="page-heading">Author Name: <%= result[0].author %>
+                        </h2>
+                        <% result.forEach(item=>{ %>
+                            <div class="post-content">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <a class="post-img" href="single?post_id=<%= item._id %>"><img
+                                                src="/images/<%= item.post_img %>" alt="" /></a>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="inner-content clearfix">
+                                            <h3><a href='single?post_id=<%= item._id %>'>
+                                                    <%= item.title %>
+                                                </a></h3>
+                                            <div class="post-information">
+                                                <span>
+                                                    <i class="fa fa-tags" aria-hidden="true"></i>
+                                                    <a href='category?cat_name=<%= item.category %>'>
+                                                        <%= item.category %>
+                                                    </a>
+                                                </span>
+                                                <span>
+                                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                                    <a href='author?author=<%= item.author %>'>
+                                                        <%= item.author %>
+                                                    </a>
+                                                </span>
+                                                <span>
+                                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                                    <%= item.post_date.toLocaleDateString('en-US', { day: 'numeric' ,
+                                                        month: 'short' , year: 'numeric' }) %>
+                                                </span>
+                                            </div>
+                                            <p class="description">
+                                                <% const cleanedDescription=item.description.replace(/<[^>]+>/g, ''); %>
+                                                    <% let truncatedDescription=cleanedDescription.slice(0, 130); %>
+                                                        <%= truncatedDescription %>...
+                                            </p>
+                                            <a class='read-more pull-right' href='single?post_id=<%= item._id %>'>read
+                                                more</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <ul class='pagination'>
+                                    <% if (currentPage> 1) { %>
+                                        <li><a href="?page=<%= currentPage - 1 %>">Previous</a></li>
+                                        <% } %>
+
+                                            <% for (let i=1; i <=totalPages; i++) { %>
+                                                <li <% if (currentPage===i) { %>class="active"<% } %>><a
+                                                            href="?page=<%= i %>">
+                                                            <%= i %>
+                                                        </a></li>
+                                                <% } %>
+
+                                                    <% if (currentPage < totalPages) { %>
+                                                        <li><a href="?page=<%= currentPage + 1 %>">Next</a></li>
+                                                        <% } %>
+                                </ul>
+                    </div><!-- /post-container -->
+                </div>
+                <%- include('sidebar') %>
+            </div>
+        </div>
+    </div>
+    <%- include('footer') %>

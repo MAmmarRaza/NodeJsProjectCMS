@@ -1,0 +1,46 @@
+<%- include('header') %>
+  <div id="admin-content">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-10">
+                  <h1 class="admin-heading">All Users</h1>
+              </div>
+              <div class="col-md-2">
+                  <a class="add-new" href="add-user">add user</a>
+              </div>
+              <div class="col-md-12">
+                  <table class="content-table" id="dt1">
+                      <thead>
+                          <th>S.No.</th>
+                          <th>Email</th>
+                          <th>User Name</th>
+                          <th>Role</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                      </thead>
+                      <tbody>
+                        <% let count = 0; %>
+                        <% result.forEach(item => { %>
+                            <% count++; %>
+                          <tr>
+                              <td class='id'><%= count; %></td>
+                              <td><%= item.email %></td>
+                              <td><%= item.username %></td>
+                              <td><%= item.role %></td>
+                              <td class='edit'><a href="update-user?user_id=<%= item._id %>"><i class='fa fa-edit'></i></a></td>
+                              <td class='delete'><a style="cursor:pointer;"  onclick="deleteData('delete-user?user_id=<%= item._id %>')"><i class='fa fa-trash-o'></i></a></td>
+
+                            </tr>
+                          <% }) %>
+                      </tbody>
+                  </table>
+                  <!-- <ul class='pagination admin-pagination'>
+                      <li class="active"><a>1</a></li>
+                      <li><a>2</a></li>
+                      <li><a>3</a></li>
+                  </ul> -->
+              </div>
+          </div>
+      </div>
+  </div>
+  <%- include('footer') %>
