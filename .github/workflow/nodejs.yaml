@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -17,9 +17,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-
-      - name: Create _work folder
-        run: mkdir _work
 
       - name: Install dependencies
         run: npm install
