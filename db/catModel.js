@@ -10,3 +10,4 @@ const catSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('categories',catSchema);
+//nothign comment
