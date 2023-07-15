@@ -1,0 +1,20 @@
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build
+
+  test:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
