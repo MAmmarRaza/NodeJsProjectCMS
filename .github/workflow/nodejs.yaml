@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 14
 
+      - name: Create _work folder
+        run: mkdir _work
+
       - name: Install dependencies
         run: npm install
 
