@@ -48,7 +48,8 @@ img.logo{
 }
 
 #header-admin{
-    background-color: #1E90FF;
+    /* background-color: #1E90FF; */
+    background-color: black;
     padding: 15px 0;
 }
 
