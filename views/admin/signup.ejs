@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>ADMIN | Login</title>
+        <title>ADMIN | SignUp</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" href="font/font-awesome-4.7.0/css/font-awesome.css">
         <link rel="stylesheet" href="/css/style.css">
@@ -16,13 +16,17 @@
                 <div class="row">
                     <div class="col-md-offset-4 col-md-4">
                         <img class="logo" src="/images/news.jpg">
-                        <h3 class="heading">Sign In</h3>
+                        <h3 class="heading">Sign Up</h3>
                         <p style="color: red"><%= typeof error !== 'undefined' ? error : '' %></p>
                         <!-- Form Start -->
-                        <form  action="loginSession" method ="POST">
+                        <form  action="signup_user" method ="POST">
                             <div class="form-group">
                                 <label>Username</label>
                                 <input type="text" name="username" class="form-control" placeholder="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
@@ -30,7 +34,6 @@
                             </div>
                             <input type="submit" name="login" class="btn btn-primary" value="login" />
                         </form>
-                        <div style="text-align: center;">Not a user? <a style="text-decoration: underline;" href="admin/signup">Sign Up</a></div>
                         <!-- /Form  End -->
                     </div>
                 </div>

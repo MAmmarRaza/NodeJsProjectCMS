@@ -6,6 +6,7 @@ const postRouter = express.Router();
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const { paginateResults } = require('./pagination');
 
 async function changeNumber(table, find, column, operation) {
   const data = await table.findOne(find);
@@ -45,21 +46,34 @@ var upload = multer({
 });
 
 
-postRouter.get('/post', async (req, res) => {
+
+postRouter.get("/post", async (req, res) => {
+  const currentPage = parseInt(req.query.page) || 1; // Get the current page from the query parameters
+  const pageSize = 10; // Define the number of records per page
+
   try {
-    if(req.session.userrole==0){
-      // console.log(userrole);
-      const result = await posts.find({author:req.session.username}); // Retrieve all records from the "students" collection
-      res.render('admin/post', { result: result });
-    }else{
-      const result = await posts.find(); // Retrieve all records from the "students" collection
-      res.render('admin/post', { result: result });
+    if (req.session.userrole == 0) {
+      const { results, totalPages } = await paginateResults(posts, { author: req.session.username }, currentPage, pageSize);
+
+      res.render('admin/post', {
+        result: results,
+        totalPages: totalPages,
+        currentPage: currentPage
+      });
+    } else {
+      const { results, totalPages } = await paginateResults(posts, {}, currentPage, pageSize);
+
+      res.render('admin/post', {
+        result: results,
+        totalPages: totalPages,
+        currentPage: currentPage
+      });
+
     }
-    
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while retrieving the records.' });
   }
-  // res.render('admin/post');
+
 });
 
 postRouter.get('/add-post', async (req, res) => {
@@ -147,7 +161,7 @@ postRouter.post("/edit-post", upload.single("post_img"), async (req, res) => {
           //decrement previous
           changeNumber(categories, { name: previous_post_data_category }, previous_post_data_category, "d");
         }
-        res.redirect("post");       
+        res.redirect("post");
       })
       .catch(error => {
         res.send(error);

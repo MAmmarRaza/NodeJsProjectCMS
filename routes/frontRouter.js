@@ -43,17 +43,6 @@ frontRouter.get("/single",async (req,res)=>{
 
 
 
-// route to get data at category post file
-// frontRouter.get("/category",async (req,res)=>{
-//   const catName=req.query.cat_name;
-//   try {
-//       const result = await posts.find({ category:catName }); // Retrieve all records from the "posts" collection
-//       res.render('category', { result: result });
-//     } catch (error) {
-//       res.status(500).json({ error: 'An error occurred while retrieving the records.' });
-//     }
-// });
-
 frontRouter.get("/category", async (req, res) => {
   const catName=req.query.cat_name;
   const currentPage = parseInt(req.query.page) || 1; // Get the current page from the query parameters
@@ -72,16 +61,7 @@ frontRouter.get("/category", async (req, res) => {
   }
 });
 
-// route to get data at category post file
-// frontRouter.get("/author",async (req,res)=>{
-//   const authName=req.query.author;
-//   try {
-//       const result = await posts.find({ author:authName }); // Retrieve all records from the "posts" collection
-//       res.render('author', { result: result });
-//     } catch (error) {
-//       res.status(500).json({ error: 'An error occurred while retrieving the records.' });
-//     }
-// });
+
 
 frontRouter.get("/author", async (req, res) => {
   const authName=req.query.author;
@@ -101,16 +81,6 @@ frontRouter.get("/author", async (req, res) => {
   }
 });
 
-// route to get data at category post file
-// frontRouter.post("/search",async (req,res)=>{
-//   const postName=req.body.search;
-//   try {
-//       const result = await posts.find({$or:[{ title: { $regex: `^${postName}`, $options: 'i' }},{ author: { $regex: `^${postName}`, $options: 'i' }}]});
-//       res.render('search', { result: result, searchTerm:postName });
-//     } catch (error) {
-//       res.status(500).json({ error: 'An error occurred while retrieving the records.' });
-//     }
-// });
 
 frontRouter.post("/search", async (req, res) => {
   const postName=req.body.search;

@@ -9,7 +9,7 @@
                   <a class="add-new" href="add-user">add user</a>
               </div>
               <div class="col-md-12">
-                  <table class="content-table" id="dt1">
+                  <table class="content-table" >
                       <thead>
                           <th>S.No.</th>
                           <th>Email</th>
@@ -34,11 +34,24 @@
                           <% }) %>
                       </tbody>
                   </table>
-                  <!-- <ul class='pagination admin-pagination'>
-                      <li class="active"><a>1</a></li>
-                      <li><a>2</a></li>
-                      <li><a>3</a></li>
-                  </ul> -->
+                   <!-- pagination controls -->
+                   <ul class='pagination'>
+                    <% if (currentPage> 1) { %>
+                        <li><a href="?page=<%= currentPage - 1 %>">Previous</a></li>
+                        <% } %>
+
+                            <% for (let i=1; i <=totalPages; i++) { %>
+                                <% if(totalPages==1) {}else{ %>
+                                <li <% if (currentPage===i) { %>class="active"<% } %>><a
+                                            href="?page=<%= i %>">
+                                            <%= i %>
+                                        </a></li>
+                                <% } } %>
+
+                                    <% if (currentPage < totalPages) { %>
+                                        <li><a href="?page=<%= currentPage + 1 %>">Next</a></li>
+                                        <% } %>
+                </ul>
               </div>
           </div>
       </div>

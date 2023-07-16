@@ -15,7 +15,7 @@ const sessionExistsMiddleware = (req, res, next) => {
     }
   } else {
     // Session doesn't exist
-    if (req.path === "/" || req.path === "/login") {
+    if (req.path === "/" || req.path === "/login" || req.path === "/signup" || req.path === "/signup_user" ) {
       // If accessing login page or login route and session doesn't exist, proceed to the route
       next();
     } else {
