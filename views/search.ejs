@@ -55,11 +55,12 @@
                             <% } %>
 
                                 <% for (let i=1; i <=totalPages; i++) { %>
+                                    <% if(totalPages==1) {}else{ %>
                                     <li <% if (currentPage===i) { %>class="active"<% } %>><a
                                                 href="?page=<%= i %>">
                                                 <%= i %>
                                             </a></li>
-                                    <% } %>
+                                    <% }} %>
 
                                         <% if (currentPage < totalPages) { %>
                                             <li><a href="?page=<%= currentPage + 1 %>">Next</a></li>
