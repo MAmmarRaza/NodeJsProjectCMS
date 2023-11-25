@@ -6,10 +6,19 @@ const userRouter = require('./routes/userRouter');
 const categoryRouter = require('./routes/categoryRouter');
 const postRouter = require('./routes/postRouter');
 const frontRouter = require('./routes/frontRouter');
+const cors=require('cors')
 const { sessionExistsMiddleware , restrictAccessMiddleware, configureMiddlewares } = require('./middleware/sessionFilter');
 
 
 const app = express();
+app.use(cors(
+  {
+    origin:["https://node-js-project-cms.vercel.app"],
+    method:["POST","GET"],
+    credentials:true
+    
+  }
+));
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
