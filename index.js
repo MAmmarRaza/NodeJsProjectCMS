@@ -13,8 +13,8 @@ const { sessionExistsMiddleware , restrictAccessMiddleware, configureMiddlewares
 const app = express();
 app.use(cors(
   {
-    origin:["https://node-js-project-cms.vercel.app"],
-    method:["POST","GET"],
+    origin:["https://node-js-project-cms.vercel.app", "https://blog-ammar-17ea7ba0a07b.herokuapp.com", "https://blog.exportthreads.live"],
+    method:["POST","GET","PUT","DELETE"],
     credentials:true
     
   }
@@ -66,4 +66,8 @@ app.use("/admin",restrictAccessMiddleware, userRouter);
 // app.use("/admin", userRouter);
 app.use("/", frontRouter);
 
-app.listen(5000);
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
