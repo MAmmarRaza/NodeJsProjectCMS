@@ -6,3 +6,5 @@ def buildImage(){
         sh 'docker push mammarraza/newblog:3.0'
     }
 }
+
+return this
