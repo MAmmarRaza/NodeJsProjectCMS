@@ -74,15 +74,15 @@ pipeline {
     }
 
 
-        stage('Check Deployment Status') {
-            steps {
-                script {
-                    // Check if the deployment pods are running successfully
-                    echo 'Checking the status of the deployment...'
-                    sh "kubectl rollout status deployment/newblog-deployment"
-                }
-            }
-        }
+        // stage('Check Deployment Status') {
+        //     steps {
+        //         script {
+        //             // Check if the deployment pods are running successfully
+        //             echo 'Checking the status of the deployment...'
+        //             sh "kubectl rollout status deployment/newblog-deployment"
+        //         }
+        //     }
+        // }
     }
 
     post {
