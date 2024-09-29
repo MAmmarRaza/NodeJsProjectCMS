@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Docker Hub credentials (set in Jenkins Credentials Manager)
-        DOCKER_HUB_CREDENTIALS = 'dockerhub-repo'
+        DOCKER_HUB_CREDENTIALS = 'dockerhubId'
         DOCKER_IMAGE_NAME = "mammarraza/newblog"
         DOCKER_IMAGE_TAG = "latest"
 
@@ -13,7 +13,7 @@ pipeline {
         KUBERNETES_INGRESS_FILE = "k8s/newblog-ingress.yaml"
 
         // AWS and Kubeconfig credentials
-        AWS_CREDENTIALS = "awsCredentialsId"  // AWS Credentials stored in Jenkins
+        AWS_CREDENTIALS = "awsId"  // AWS Credentials stored in Jenkins
         AWS_REGION = "us-east-1"
         KUBE_CONFIG_CREDENTIALS = "kubeConfigId"
     }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 // Clone the GitHub repository with credentials
                 git url: 'https://github.com/MAmmarRaza/NodeJsProjectCMS.git',
-                    credentialsId: 'github-id', // GitHub credentials stored in Jenkins
+                    credentialsId: 'githubId', // GitHub credentials stored in Jenkins
                     branch: 'main'
             }
         }
