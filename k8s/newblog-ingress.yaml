@@ -19,4 +19,3 @@ spec:
             name: newblog-service
             port:
               number: 5001
-# 
