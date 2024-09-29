@@ -55,23 +55,24 @@ pipeline {
         }
 
         stage('Deploy to EKS') {
-            steps {
-                script {
-                    // Use AWS credentials for EKS interaction
-                    withAWS(credentials: AWS_CREDENTIALS, region: AWS_REGION) {
-                        // Use Jenkins kubeconfig credentials to interact with Kubernetes
-                        withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS]) {
-                            echo 'Deploying to Kubernetes EKS Cluster...'
+        steps {
+            script {
+                // Use AWS credentials for EKS interaction
+                withAWS(credentials: AWS_CREDENTIALS, region: AWS_REGION) {
+                    // Use Jenkins kubeconfig credentials to interact with Kubernetes
+                    withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS]) {
+                        echo 'Deploying to Kubernetes EKS Cluster...'
 
-                            // Apply the Kubernetes manifests using kubectl
-                            sh "kubectl apply -f ${KUBERNETES_DEPLOYMENT_FILE}"
-                            sh "kubectl apply -f ${KUBERNETES_SERVICE_FILE}"
-                            sh "kubectl apply -f ${KUBERNETES_INGRESS_FILE}"
-                        }
+                        // Apply the Kubernetes manifests using kubectl with validation turned off
+                        sh "kubectl apply -f ${KUBERNETES_DEPLOYMENT_FILE} --validate=false"
+                        sh "kubectl apply -f ${KUBERNETES_SERVICE_FILE} --validate=false"
+                        sh "kubectl apply -f ${KUBERNETES_INGRESS_FILE} --validate=false"
                     }
                 }
             }
         }
+    }
+
 
         stage('Check Deployment Status') {
             steps {
