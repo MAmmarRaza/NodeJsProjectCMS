@@ -12,7 +12,9 @@ pipeline {
         KUBERNETES_SERVICE_FILE = "k8s/newblog-service.yaml"
         KUBERNETES_INGRESS_FILE = "k8s/newblog-ingress.yaml"
 
-        // Kubeconfig credentials (set in Jenkins Credentials Manager)
+        // AWS and Kubeconfig credentials
+        AWS_CREDENTIALS = "awsCredentialsId"  // AWS Credentials stored in Jenkins
+        AWS_REGION = "us-east-1"
         KUBE_CONFIG_CREDENTIALS = "kubeConfigId"
     }
 
@@ -55,14 +57,17 @@ pipeline {
         stage('Deploy to EKS') {
             steps {
                 script {
-                    // Use Jenkins credentials for kubeconfig
-                    withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS]) {
-                        echo 'Deploying to Kubernetes EKS Cluster...'
+                    // Use AWS credentials for EKS interaction
+                    withAWS(credentials: AWS_CREDENTIALS, region: AWS_REGION) {
+                        // Use Jenkins kubeconfig credentials to interact with Kubernetes
+                        withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS]) {
+                            echo 'Deploying to Kubernetes EKS Cluster...'
 
-                        // Apply the Kubernetes manifests using kubectl
-                        sh "kubectl apply -f ${KUBERNETES_DEPLOYMENT_FILE}"
-                        sh "kubectl apply -f ${KUBERNETES_SERVICE_FILE}"
-                        sh "kubectl apply -f ${KUBERNETES_INGRESS_FILE}"
+                            // Apply the Kubernetes manifests using kubectl
+                            sh "kubectl apply -f ${KUBERNETES_DEPLOYMENT_FILE}"
+                            sh "kubectl apply -f ${KUBERNETES_SERVICE_FILE}"
+                            sh "kubectl apply -f ${KUBERNETES_INGRESS_FILE}"
+                        }
                     }
                 }
             }
