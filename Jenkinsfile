@@ -53,16 +53,6 @@ pipeline {
                 }
             }
         }
-        stage('Test Kubernetes Access') {
-        steps {
-            script {
-                // Test Kubernetes access
-                withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS]) {
-                    sh "kubectl get pods"
-                }
-            }
-        }
-    }
 
         stage('Deploy to EKS') {
         steps {
