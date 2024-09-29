@@ -19,8 +19,10 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Clone the GitHub repository
-                git 'https://github.com/MAmmarRaza/NodeJsProjectCMS.git'
+                // Clone the GitHub repository with credentials
+                git url: 'https://github.com/MAmmarRaza/NodeJsProjectCMS.git',
+                    credentialsId: 'github-id', // GitHub credentials stored in Jenkins
+                    branch: 'main'
             }
         }
 
