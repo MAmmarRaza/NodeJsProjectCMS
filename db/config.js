@@ -3,6 +3,8 @@ require('dotenv').config();
 const connectWithRetry = () => {
   console.log('Attempting to connect to MongoDB...');
 
+  console.log(`mongodb://${process.env.MONGO_URL_USERNAME}:${process.env.MONGO_URL_PASSWORD}@${process.env.MONGO_URL_CLUSTER}:27017/${process.env.MONGO_URL_DATABASE}`);
+  console.log(process.env.MONGO_URL);
   mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

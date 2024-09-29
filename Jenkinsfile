@@ -1,31 +1,94 @@
-def gv
 pipeline {
     agent any
+
+    environment {
+        // Docker Hub credentials (set in Jenkins Credentials Manager)
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-repo'
+        DOCKER_IMAGE_NAME = "mammarraza/newblog"
+        DOCKER_IMAGE_TAG = "latest"
+
+        // Kubernetes deployment files
+        KUBERNETES_DEPLOYMENT_FILE = "k8s/newblog-deployment.yaml"
+        KUBERNETES_SERVICE_FILE = "k8s/newblog-service.yaml"
+        KUBERNETES_INGRESS_FILE = "k8s/newblog-ingress.yaml"
+
+        // Kubeconfig credentials (set in Jenkins Credentials Manager)
+        KUBE_CONFIG_CREDENTIALS = "kubeConfigId"
+    }
+
     stages {
-        stage('init'){
+        stage('Checkout Code') {
+            steps {
+                // Clone the GitHub repository
+                git 'https://github.com/MAmmarRaza/NodeJsProjectCMS.git'
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    echo 'Initialising...'
-                    gv = load 'script.groovy'
+                    echo "Building Docker image for ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+
+                    // Build the Docker image from the cloned repository
+                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ."
                 }
             }
         }
-        stage('Build Image') {
+
+        stage('Push Docker Image to Docker Hub') {
             steps {
-               script {
-                    gv.buildImage()
+                script {
+                    // Log in to Docker Hub
+                    withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin"
+
+                        // Tag the image and push to Docker Hub
+                        sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                        sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}"
+                    }
                 }
             }
         }
-        stage('Test') {
+
+        stage('Deploy to EKS') {
             steps {
-                echo 'Testing..'
+                script {
+                    // Use Jenkins credentials for kubeconfig
+                    withKubeConfig([credentialsId: KUBE_CONFIG_CREDENTIALS]) {
+                        echo 'Deploying to Kubernetes EKS Cluster...'
+
+                        // Apply the Kubernetes manifests using kubectl
+                        sh "kubectl apply -f ${KUBERNETES_DEPLOYMENT_FILE}"
+                        sh "kubectl apply -f ${KUBERNETES_SERVICE_FILE}"
+                        sh "kubectl apply -f ${KUBERNETES_INGRESS_FILE}"
+                    }
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Check Deployment Status') {
             steps {
-                echo 'Deploying....'
+                script {
+                    // Check if the deployment pods are running successfully
+                    echo 'Checking the status of the deployment...'
+                    sh "kubectl rollout status deployment/newblog-deployment"
+                }
             }
+        }
+    }
+
+    post {
+        always {
+            // Clean up the workspace after the pipeline run
+            cleanWs()
+        }
+
+        success {
+            echo 'Pipeline execution completed successfully!'
+        }
+
+        failure {
+            echo 'Pipeline execution failed.'
         }
     }
 }

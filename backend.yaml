@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newblog-deployment
+  labels:
+    app: newblog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newblog
+  template:
+    metadata:
+      labels:
+        app: newblog
+    spec:
+      containers:
+      - name: newblog
+        image: mammarraza/newblog:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGO_URL
+          valueFrom:
+            configMapKeyRef:
+                name: mongodb-configmap
+                key: database_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: newblog-service
+spec:
+  selector:
+    app: newblog
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 5000          
+    targetPort: 5000    
+    nodePort: 31000 
