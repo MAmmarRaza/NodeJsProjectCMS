@@ -6,7 +6,9 @@ phases:
       nodejs: 16 # Specify your Node.js version
     commands:
       - echo "Installing dependencies"
-      - npm install
+      - npm install # Install dependencies for the build environment
 artifacts:
   files:
     - '**/*' # Include all files in the artifact
+    - appspec.yml # Ensure appspec.yml is included in the artifact
+    - deploy/** # Include the deploy folder (scripts, etc.)

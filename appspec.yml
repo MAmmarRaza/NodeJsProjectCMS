@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-    destination: /home/ubuntu/NodeJsProjectCMS
+  - source: / # Everything in the source directory
+    destination: /home/ubuntu/NodeJsProjectCMS # Destination path
 hooks:
   BeforeInstall:
     - location: deploy/application_start.sh
