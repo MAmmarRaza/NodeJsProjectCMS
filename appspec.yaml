@@ -7,8 +7,8 @@ hooks:
   BeforeInstall:
     - location: deploy/application_start.sh
       timeout: 300
-      runas: root
+      runas: ubuntu
   AfterInstall:
     - location: deploy/after_install.sh
       timeout: 300
-      runas: root
+      runas: ubuntu
