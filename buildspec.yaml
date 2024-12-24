@@ -1,0 +1,12 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16 # Specify your Node.js version
+    commands:
+      - echo "Installing dependencies"
+      - npm install
+artifacts:
+  files:
+    - '**/*' # Include all files in the artifact
