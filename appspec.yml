@@ -11,13 +11,13 @@ branch_config:
         deploymentGroupName: ammar-deployment-group
         deploymentGroupConfig:
             serviceRoleArn: arn:aws:iam::533267208345:role/code-deploy
-hooks:
-  BeforeInstall:
-    - location: deploy/application_start.sh
-      timeout: 300
-      runas: root
-  AfterInstall:
-    - location: deploy/after_install.sh
-      timeout: 300
-      runas: root
+# hooks:
+#   BeforeInstall:
+#     - location: deploy/application_start.sh
+#       timeout: 300
+#       runas: root
+#   AfterInstall:
+#     - location: deploy/after_install.sh
+#       timeout: 300
+#       runas: root
 
