@@ -8,9 +8,9 @@ file_exists_behavior: OVERWRITE
 branch_config:
     wip\/.*: ~ 
     main:
-        deploymentGroupName: ammar-cdg
+        deploymentGroupName: ammar-deployment-group
         deploymentGroupConfig:
-            serviceRoleArn: arn:aws:iam::654654225250:role/code-deploy
+            serviceRoleArn: arn:aws:iam::533267208345:role/code-deploy
 hooks:
   BeforeInstall:
     - location: deploy/application_start.sh
