@@ -15,11 +15,11 @@ cd /home/ubuntu/NodeJsProjectCMS
 if ! command -v pm2 &> /dev/null
 then
     echo "pm2 could not be found, installing..."
-    npm install -g pm2 # Install pm2 globally
+    sudo npm install -g pm2 # Install pm2 globally
 fi
 
 # Stop any previous instance of the app
-pm2 delete index.js || echo "No previous pm2 process found."
+sudo pm2 delete index.js || echo "No previous pm2 process found."
 
 # Start the application with pm2
-pm2 start index.js --name "NodeJsProjectCMS" # Name the pm2 process for better identification
+sudo pm2 start index.js --name "NodeJsProjectCMS" # Name the pm2 process for better identification
