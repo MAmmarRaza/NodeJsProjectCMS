@@ -27,4 +27,4 @@ jobs:
         with:
           application: ammar-codedeploy
           deployment-group: ammar-deployment-group
-          revision: ./ # Adjust this if your application code isn't in the root directory
+          revision: ./ 
