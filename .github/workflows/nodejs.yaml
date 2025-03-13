@@ -1,31 +1,24 @@
-name: Deploy to EC2 via CodeDeploy
+name: Deploy to DigitalOcean
 
 on:
   push:
     branches:
-      - main
+      - main  # Change to your target branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: List Directory
-        run: ls -al
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 143.110.240.71 >> ~/.ssh/known_hosts
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.2
-        with:
-          aws-region: us-east-1
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-
-      - name: Deploy to AWS CodeDeploy
-        uses: webfactory/create-aws-codedeploy-deployment@v0.2.2
-        with:
-          application: ammar-codedeploy
-          deployment-group: ammar-deployment-group
-          revision: ./ 
-          #
+      - name: Deploy to DigitalOcean
+        run: |
+          ssh user@143.110.240.71 "cd /root/NodeJsProjectCMS && git pull && npm install && pm2 restart 0"
