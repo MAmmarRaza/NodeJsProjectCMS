@@ -42,14 +42,8 @@ jobs:
       - name: Run Tests
         run: npm test
 
-      - name: Store Test Results
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: test-results/
-
       - name: Set Output Variable
+        if: success()
         id: set_var
         run: echo "DEPLOY_STATUS=Ready" >> $GITHUB_ENV
 
@@ -60,14 +54,8 @@ jobs:
     if: github.ref == 'refs/heads/main'  # Only deploy from main branch
 
     steps:
-      - name: Download Test Results
-        uses: actions/download-artifact@v4
-        with:
-          name: test-results
-          path: downloaded-results/
-
       - name: Deploy to Production
-        run: echo "Deploying to production..."
+        run: echo "Deploying to production...${{env.GLOBAL_ENV_VAR}}"
         env:
           API_KEY: ${{ secrets.API_KEY }}  # Using a GitHub Secret
           DEPLOY_ENV: ${{ env.DEPLOY_STATUS }}
