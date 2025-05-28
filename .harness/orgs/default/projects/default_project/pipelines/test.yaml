@@ -1,0 +1,47 @@
+pipeline:
+  name: MyAppPipeline
+  identifier: MyAppPipeline
+  projectIdentifier: default
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: github-connection
+        repoName: NodeJsProjectCMS
+        build: <+input>
+  stages:
+    - stage:
+        name: BuildAndTest
+        identifier: BuildAndTest
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Install Dependencies
+                  identifier: InstallDependencies
+                  spec:
+                    image: node:16
+                    shell: Sh
+                    command: |
+                      echo "Installing dependencies..."
+                      npm install
+              - step:
+                  type: Run
+                  name: Run Tests
+                  identifier: RunTests
+                  spec:
+                    image: node:16
+                    shell: Sh
+                    command: |
+                      echo "Running tests..."
+                      npm test
