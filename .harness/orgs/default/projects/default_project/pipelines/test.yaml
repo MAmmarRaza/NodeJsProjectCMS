@@ -11,8 +11,8 @@ pipeline:
         build: <+input>
   stages:
     - stage:
-        name: node-installation-build
-        identifier: nodeinstallationbuild
+        name: build
+        identifier: build
         description: ""
         type: CI
         spec:
@@ -34,4 +34,6 @@ pipeline:
                   type: Run
                   name: Run_1
                   identifier: Run_1
-                  spec: {}
+                  spec:
+                    shell: Sh
+                    command: ls
