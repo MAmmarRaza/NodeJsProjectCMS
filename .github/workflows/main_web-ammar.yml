@@ -21,10 +21,13 @@ jobs:
 
       - name: Prepare artifact
         run: |
+          rm -rf deploy
           mkdir deploy
-          cp -r package.json package-lock.json node_modules dist deploy/ || true
+          cp package.json package-lock.json deploy/ || true
+          cp -r node_modules deploy/ || true
           cp -r build deploy/ || true
-
+          cp -r dist deploy/ || true
+      
       - uses: actions/upload-artifact@v4
         with:
           name: app
@@ -47,3 +50,4 @@ jobs:
           app-name: 'web-ammar'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DD09221AFB714439AD44719FB61F827A }}
+
